@@ -297,7 +297,7 @@ class PrometheusCheck(AgentCheck):
             self._dry_run = False
         elif len(self._watched_labels) == 0:
             # build the _watched_labels set
-            for metric, val in self.label_joins.items():
+            for metric, val in self.label_joins.iteritems():
                 self._watched_labels.add(val['label_to_match'])
         content_type, data = self.poll(endpoint)
         tags = []
@@ -313,6 +313,7 @@ class PrometheusCheck(AgentCheck):
                 if key not in self._active_label_mapping[metric]:
                     del self._label_mapping[metric][key]
         self._active_label_mapping = {}
+
     def process_metric(self, message, send_histograms_buckets=True, custom_tags=None, **kwargs):
         """
         Handle a prometheus metric message according to the following flow:
